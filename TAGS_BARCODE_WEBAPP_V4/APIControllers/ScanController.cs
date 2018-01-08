@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -136,8 +137,8 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 {
                     model.CELL_PHONE = UpdateMember.CELL_PHONE;
                     model.COMPANY_NAME = UpdateMember.COMPANY_NAME;
-                    model.EMAIL_ID = UpdateMember.EMAIL_ID ;
-                    model.FIRST_NAME = UpdateMember.FIRST_NAME ;
+                    model.EMAIL_ID = UpdateMember.EMAIL_ID;
+                    model.FIRST_NAME = UpdateMember.FIRST_NAME;
                     model.HOME_PHONE = UpdateMember.HOME_PHONE;
                     model.IS_VOLUNTEER = UpdateMember.IS_VOLUNTEER;
                     model.LAST_NAME = UpdateMember.LAST_NAME;
@@ -175,6 +176,40 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 member.MEMBER_ID = NewMember.MEMBER_ID;
 
                 return member;
+            }
+        }
+
+        [Route("Dashboard/api/SearchEventMember")]
+        [HttpPost]
+        public void SearchEventCheckIn(SearchMemberVM SearchMember)
+        {
+            using (var db = new TagsDataModel())
+            {
+                var currentEventId = Convert.ToInt32(ConfigurationManager.AppSettings["CurrentEventID"]);
+                var model = (from memberEvent in db.MEMBER_EVENT_CHECKINS
+                            join member in db.TAGS_MEMBER on memberEvent.MEMBER_ID equals member.MEMBER_ID
+                            where member.EMAIL_ID.ToLower().Equals(SearchMember.email.ToLower()) && memberEvent.EVENT_ID ==currentEventId
+                            select memberEvent).FirstOrDefault();
+
+                if (model != null)
+                {
+
+                }
+                else
+                {
+                    var TagsMember = (from member in db.TAGS_MEMBER
+                                      where member.EMAIL_ID.ToLower().Equals(SearchMember.email.ToLower())
+                                      select member).FirstOrDefault();
+
+                    if(TagsMember!= null)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
         }
 

@@ -1,0 +1,13 @@
+﻿<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+<script src="~/Javascript/EventCheckInController.js"></script>
+<div ng-app="App" ng-controller="EventCheckInCrtl" class="container ng-cloak" style="margin-top: 5%;">
+    <div class="row">
+        <form class="form-inline" name="myForm">
+            <div class="form-group">
+                <input class="form-control" type="email" placeholder="Search by Member Email" ng-model="searchMemb.Email">
+            </div>
+            <button class="btn btn-default" ng-disabled="searchMemb.Email.length == 0 || myForm.$invalid" ng-click="searchMember()">Search</button>
+            <button type="button" class="btn btn-default" ng-click="reset()">Reset</button>
+        </form>
+    </div>
+</div>
