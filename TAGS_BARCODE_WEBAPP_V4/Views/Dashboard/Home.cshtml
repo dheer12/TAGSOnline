@@ -3,21 +3,51 @@
 <div class="container">
     <br/><br/><br/>
     <div class="col-md-4">
-        <a class="btn btn-block btn-md btn-success" data-toggle="modal" onclick="location.href='@Url.Action("Station1", "Dashboard")'" />
+        <a class="btn btn-block btn-md btn-success" onclick="location.href='@Url.Action("Station1", "Dashboard")'" />
             <i class="fa fa-users" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-plus-circle"></i> Station 1</span>
+            <span class="texto_grande"><i class="fa fa-plus-circle"></i> Ticket Check In</span>
         </a>
     </div>
     <div class="col-md-4">
-        <a class="btn btn-block btn-md btn-primary" data-toggle="modal" data-target="#mymodal">
-            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-edit"></i> Reports</span>
+        <a class="btn btn-block btn-md btn-primary">
+            <i class="fa fa-bolt" id="icone_grande"></i> <br><br>
+            <span class="texto_grande"><i class="fa fa-edit"></i> Event Check In</span>
         </a>
     </div>
     <div class="col-md-4">
-        <a class="btn btn-block btn-md btn-warning" data-toggle="modal" onclick="location.href='@Url.Action("AddUser", "Dashboard")'">
+        <a class="btn btn-block btn-md btn-primary">
+            <i class="fa fa-bolt" id="icone_grande"></i> <br><br>
+            <span class="texto_grande"><i class="fa fa-edit"></i> Update Member</span>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-block btn-md btn-primary">
+            <i class="fa fa-bolt" id="icone_grande"></i> <br><br>
+            <span class="texto_grande"><i class="fa fa-edit"></i> Add Member</span>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-block btn-md btn-warning" onclick="location.href='@Url.Action("AddUser", "Dashboard")'">
             <i class="fa fa-pied-piper-alt" id="icone_grande"></i> <br><br>
             <span class="texto_grande"><i class="fa fa-list-ul"></i> Add User</span>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-block btn-md btn-primary">
+            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+            <span class="texto_grande"><i class="fa fa-edit"></i> Revert Check In</span>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-block btn-md btn-primary">
+            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+            <span class="texto_grande"><i class="fa fa-edit"></i> Event Setup</span>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a class="btn btn-block btn-md btn-primary">
+            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+            <span class="texto_grande"><i class="fa fa-edit"></i> Reports</span>
         </a>
     </div>
 </div>
