@@ -243,15 +243,14 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
             var currentEventId = Convert.ToInt32(ConfigurationManager.AppSettings["CurrentEventID"]);
             using (var db = new TagsDataModel())
             {
+                var user = (from loggedInUser in db.TAGS_LOGIN
+                            where loggedInUser.LAST_NAME.ToLower().Equals(User.Identity.Name)
+                            select loggedInUser).FirstOrDefault();
                 if (memberCheckInVM.IsExistingMember && memberCheckInVM.IsRegistered)
                 {
                     var model = (from eve in db.MEMBER_EVENT_CHECKINS
                                 where eve.EVENT_CHECKIN_ID == memberCheckInVM.eventCheckInVM.EVENT_CHECKIN_ID
-                                select eve).FirstOrDefault();
-
-                    var user = (from loggedInUser in db.TAGS_LOGIN
-                                where loggedInUser.LAST_NAME.ToLower().Equals(User.Identity.Name)
-                                select loggedInUser).FirstOrDefault();
+                                select eve).FirstOrDefault();           
 
                     model.IS_PAID =  memberCheckInVM.eventCheckInVM.IS_PAID;
                     model.IS_CHECKEDIN = memberCheckInVM.eventCheckInVM.IS_CHECKEDIN;
@@ -274,15 +273,8 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 else if(!memberCheckInVM.IsExistingMember && !memberCheckInVM.IsRegistered)
                 {
                    MemberVM addedMember =  AddMember(memberCheckInVM.newMember);
-                   MEMBER_EVENT_CHECKINS membCheckIn = new MEMBER_EVENT_CHECKINS();
-                   membCheckIn.MEMBER_ID = Convert.ToInt32(addedMember.MEMBER_ID);
-                   membCheckIn.EVENT_ID = currentEventId;
-                   db.MEMBER_EVENT_CHECKINS.Add(membCheckIn);
-                   db.SaveChanges();
 
                    memberCheckInVM.eventCheckInVM.MEMBER_ID = addedMember.MEMBER_ID;
-                   memberCheckInVM.eventCheckInVM.EVENT_ID = membCheckIn.EVENT_ID;
-                   memberCheckInVM.eventCheckInVM.EVENT_CHECKIN_ID = membCheckIn.EVENT_CHECKIN_ID;
                    memberCheckInVM.IsExistingMember = true;
                 }
             }
