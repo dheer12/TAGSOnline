@@ -221,6 +221,7 @@
     <Compile Include="Models\TICKETED_CHECKINS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MemberVM.cs" />
+    <Compile Include="ViewModels\EventCheckInVM.cs" />
     <Compile Include="ViewModels\UserVM.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -181,8 +181,9 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
 
         [Route("Dashboard/api/SearchEventMember")]
         [HttpPost]
-        public void SearchEventCheckIn(SearchMemberVM SearchMember)
+        public MemberCheckInVM SearchEventCheckIn(SearchMemberVM SearchMember)
         {
+            MemberCheckInVM MemberCheckInVM = new MemberCheckInVM();
             using (var db = new TagsDataModel())
             {
                 var currentEventId = Convert.ToInt32(ConfigurationManager.AppSettings["CurrentEventID"]);
@@ -193,7 +194,16 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
 
                 if (model != null)
                 {
+                    MemberCheckInVM.eventCheckInVM = new EventCheckInVM();
+                    MemberCheckInVM.eventCheckInVM.EVENT_CHECKIN_ID = model.EVENT_CHECKIN_ID;
+                    MemberCheckInVM.eventCheckInVM.EVENT_ID = model.EVENT_ID;
+                    MemberCheckInVM.eventCheckInVM.IS_CHECKEDIN = model.IS_CHECKEDIN;
+                    MemberCheckInVM.eventCheckInVM.IS_PAID = model.IS_PAID;
+                    MemberCheckInVM.eventCheckInVM.MEMBER_ID = model.MEMBER_ID;
+                    MemberCheckInVM.eventCheckInVM.UESR_ID = model.UESR_ID;
 
+                    MemberCheckInVM.IsRegistered = true;
+                    MemberCheckInVM.IsExistingMember = true;
                 }
                 else
                 {
@@ -203,14 +213,27 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
 
                     if(TagsMember!= null)
                     {
+                        MemberCheckInVM.eventCheckInVM = new EventCheckInVM();
+                        MemberCheckInVM.eventCheckInVM.MEMBER_ID = TagsMember.MEMBER_ID;
+                        MemberCheckInVM.eventCheckInVM.EVENT_ID = currentEventId;
+
+                        MemberCheckInVM.IsRegistered = false;
+                        MemberCheckInVM.IsExistingMember = true;
 
                     }
                     else
                     {
+                        MemberCheckInVM.eventCheckInVM = new EventCheckInVM();
+                        MemberCheckInVM.eventCheckInVM.EVENT_ID = currentEventId;
+                        MemberCheckInVM.newMember = new MemberVM();
 
+                        MemberCheckInVM.IsRegistered = false;
+                        MemberCheckInVM.IsExistingMember = false;
                     }
                 }
             }
+
+            return MemberCheckInVM;
         }
 
     }
