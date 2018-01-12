@@ -256,6 +256,8 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                     model.IS_CHECKEDIN = memberCheckInVM.eventCheckInVM.IS_CHECKEDIN;
                     model.UESR_ID = user.USER_ID;
                     db.SaveChanges();
+
+                    memberCheckInVM.eventCheckInVM.isUpdated = true;
                 }
                 else if(memberCheckInVM.IsExistingMember && !memberCheckInVM.IsRegistered)
                 {

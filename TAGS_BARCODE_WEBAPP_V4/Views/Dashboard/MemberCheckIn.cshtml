@@ -34,9 +34,12 @@
                         <div class="col-md-10">
                             <button class="btn btn-default" ng-click="CheckInUser()">Update</button>
                         </div>
-                    </div>
+                    </div>                
                 </form>
             </div>
+        </div>
+        <div class="alert alert-warning alert-dismissable" ng-if="VM.eventCheckInVM.isUpdated">
+            Successfully Updated.
         </div>
     </div>
 

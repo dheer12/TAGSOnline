@@ -18,6 +18,8 @@ namespace TAGS_BARCODE_WEBAPP_V4.ViewModels
         public bool? IS_PAID { get; set; }
 
         public int? UESR_ID { get; set; }
+
+        public bool? isUpdated { get; set; }
     }
 
     public class MemberVM

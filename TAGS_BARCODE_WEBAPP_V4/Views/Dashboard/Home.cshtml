@@ -1,47 +1,51 @@
 ﻿
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
-    <br/><br/><br/>
-    <div class="col-md-6">
-        <a class="btn btn-block btn-md btn-success" onclick="location.href='@Url.Action("Station1", "Dashboard")'" />
-            <i class="fa fa-users" id="icone_grande"></i> <br><br>
+    <br /><br /><br />
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-block btn-md btn-success" onclick="location.href='@Url.Action("Station1", "Dashboard")'" />
+            <i class="fa fa-refresh" id="icone_grande"></i> <br><br>
             <span class="texto_grande"><i class="fa fa-plus-circle"></i> Ticket Check In</span>
-        </a>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-block btn-md btn-primary" onclick="location.href='@Url.Action("MemberCheckIn", "Dashboard")'">
+                <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+                <span class="texto_grande"><i class="fa fa-edit"></i> Event Check In</span>
+            </a>
+        </div>
     </div>
-    <div class="col-md-6">
-        <a class="btn btn-block btn-md btn-primary" onclick="location.href='@Url.Action("MemberCheckIn", "Dashboard")'">
-            <i class="fa fa-cog" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-edit"></i> Event Check In</span>
-        </a>
-    </div>
-    <div class="col-md-6">
-        <a class="btn btn-block btn-md btn-warning" onclick="location.href='@Url.Action("UpdateMember", "Dashboard")'">
-            <i class="fa fa-bolt" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-edit"></i> Update Member</span>
-        </a>
-    </div>
-    <div class="col-md-6">
-        <a class="btn btn-block btn-md btn-success" onclick="location.href='@Url.Action("AddUser", "Dashboard")'">
-            <i class="fa fa-pied-piper-alt" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-list-ul"></i> Add User</span>
-        </a>
+    <div class="row top-buffer">
+        <div class="col-md-6">
+            <a class="btn btn-block btn-md btn-warning" onclick="location.href='@Url.Action("UpdateMember", "Dashboard")'">
+                <i class="fa fa-users" id="icone_grande"></i> <br><br>
+                <span class="texto_grande"><i class="fa fa-edit"></i> Update Member</span>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-block btn-md btn-success" onclick="location.href='@Url.Action("AddUser", "Dashboard")'">
+                <i class="fa fa-pied-piper-alt" id="icone_grande"></i> <br><br>
+                <span class="texto_grande"><i class="fa fa-list-ul"></i> Add User</span>
+            </a>
+        </div>
     </div>
     @*<div class="col-md-4">
-        <a class="btn btn-block btn-md btn-primary">
-            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-edit"></i> Revert Check In</span>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a class="btn btn-block btn-md btn-primary">
-            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-edit"></i> Event Setup</span>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a class="btn btn-block btn-md btn-primary">
-            <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
-            <span class="texto_grande"><i class="fa fa-edit"></i> Reports</span>
-        </a>
-    </div>*@
+            <a class="btn btn-block btn-md btn-primary">
+                <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+                <span class="texto_grande"><i class="fa fa-edit"></i> Revert Check In</span>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-block btn-md btn-primary">
+                <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+                <span class="texto_grande"><i class="fa fa-edit"></i> Event Setup</span>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-block btn-md btn-primary">
+                <i class="fa fa-cog fa-spin" id="icone_grande"></i> <br><br>
+                <span class="texto_grande"><i class="fa fa-edit"></i> Reports</span>
+            </a>
+        </div>*@
 </div>

@@ -23,19 +23,16 @@ App.controller('EventCheckInCrtl', ['$scope', '$http', function ($scope, $http) 
             if ($scope.VM.IsExistingMember && $scope.VM.IsRegistered) {
                 $scope.IsExistingMember = true;
                 $scope.IsRegistered = true;
-                debugger;
             }
             else if ($scope.VM.IsExistingMember && !$scope.VM.IsRegistered) {
                 $scope.IsExistingMember = true;
                 $scope.IsRegistered = false;
-                debugger;
             }
             else if (!$scope.VM.IsExistingMember && !$scope.VM.IsRegistered)
             {
                 $scope.VM.newMember.EMAIL_ID = angular.copy($scope.searchMemb.Email);
                 $scope.IsExistingMember = false;
                 $scope.IsRegistered = false;
-                debugger;
             }
         });
 
@@ -70,4 +67,6 @@ App.controller('EventCheckInCrtl', ['$scope', '$http', function ($scope, $http) 
            }
        });
     };
+
+
 }]);
