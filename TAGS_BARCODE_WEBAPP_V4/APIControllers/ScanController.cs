@@ -188,9 +188,9 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
             {
                 var currentEventId = Convert.ToInt32(ConfigurationManager.AppSettings["CurrentEventID"]);
                 var model = (from memberEvent in db.MEMBER_EVENT_CHECKINS
-                            join member in db.TAGS_MEMBER on memberEvent.MEMBER_ID equals member.MEMBER_ID
-                            where member.EMAIL_ID.ToLower().Equals(SearchMember.email.ToLower()) && memberEvent.EVENT_ID ==currentEventId
-                            select memberEvent).FirstOrDefault();
+                             join member in db.TAGS_MEMBER on memberEvent.MEMBER_ID equals member.MEMBER_ID
+                             where member.EMAIL_ID.ToLower().Equals(SearchMember.email.ToLower()) && memberEvent.EVENT_ID == currentEventId
+                             select memberEvent).FirstOrDefault();
 
                 if (model != null)
                 {
@@ -211,7 +211,7 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                                       where member.EMAIL_ID.ToLower().Equals(SearchMember.email.ToLower())
                                       select member).FirstOrDefault();
 
-                    if(TagsMember!= null)
+                    if (TagsMember != null)
                     {
                         MemberCheckInVM.eventCheckInVM = new EventCheckInVM();
                         MemberCheckInVM.eventCheckInVM.MEMBER_ID = TagsMember.MEMBER_ID;
@@ -249,17 +249,17 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 if (memberCheckInVM.IsExistingMember && memberCheckInVM.IsRegistered)
                 {
                     var model = (from eve in db.MEMBER_EVENT_CHECKINS
-                                where eve.EVENT_CHECKIN_ID == memberCheckInVM.eventCheckInVM.EVENT_CHECKIN_ID
-                                select eve).FirstOrDefault();           
+                                 where eve.EVENT_CHECKIN_ID == memberCheckInVM.eventCheckInVM.EVENT_CHECKIN_ID
+                                 select eve).FirstOrDefault();
 
-                    model.IS_PAID =  memberCheckInVM.eventCheckInVM.IS_PAID;
+                    model.IS_PAID = memberCheckInVM.eventCheckInVM.IS_PAID;
                     model.IS_CHECKEDIN = memberCheckInVM.eventCheckInVM.IS_CHECKEDIN;
                     model.UESR_ID = user.USER_ID;
                     db.SaveChanges();
 
                     memberCheckInVM.eventCheckInVM.isUpdated = true;
                 }
-                else if(memberCheckInVM.IsExistingMember && !memberCheckInVM.IsRegistered)
+                else if (memberCheckInVM.IsExistingMember && !memberCheckInVM.IsRegistered)
                 {
                     MEMBER_EVENT_CHECKINS membCheckIn = new MEMBER_EVENT_CHECKINS();
                     membCheckIn.EVENT_ID = currentEventId;
@@ -272,17 +272,133 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                     memberCheckInVM.eventCheckInVM.EVENT_ID = membCheckIn.EVENT_ID;
                     memberCheckInVM.IsRegistered = true;
                 }
-                else if(!memberCheckInVM.IsExistingMember && !memberCheckInVM.IsRegistered)
+                else if (!memberCheckInVM.IsExistingMember && !memberCheckInVM.IsRegistered)
                 {
-                   MemberVM addedMember =  AddMember(memberCheckInVM.newMember);
+                    MemberVM addedMember = AddMember(memberCheckInVM.newMember);
 
-                   memberCheckInVM.eventCheckInVM.MEMBER_ID = addedMember.MEMBER_ID;
-                   memberCheckInVM.IsExistingMember = true;
+                    memberCheckInVM.eventCheckInVM.MEMBER_ID = addedMember.MEMBER_ID;
+                    memberCheckInVM.IsExistingMember = true;
                 }
             }
 
             return memberCheckInVM;
         }
 
+        [Route("Dashboard/api/Reports/{eventId}")]
+        [HttpGet]
+        public ReportsVM GetEventReports(int eventId)
+        {
+            ReportsVM reports = new ReportsVM();
+            using (var db = new TagsDataModel())
+            {
+                var eventInfo = (from eventInf in db.TAGS_EVENTS
+                                 where eventInf.EVENT_ID == eventId
+                                 select eventInf).FirstOrDefault();
+
+                reports.EVENT_DATE = eventInfo.EVENT_DATE;
+                reports.EVENT_ID = eventInfo.EVENT_ID;
+                reports.EVENT_LOCATION = eventInfo.EVENT_LOCATION;
+                reports.EVENT_NAME = eventInfo.EVENT_NAME;
+                reports.IS_TICKETED_EVENT = eventInfo.IS_TICKETED_EVENT;
+
+                if (eventInfo.IS_TICKETED_EVENT == false)
+                {
+                    var MemberEventTotalCount = (from tickEve in db.MEMBER_EVENT_CHECKINS
+                                                 where tickEve.EVENT_ID == eventId
+                                                 select tickEve).Count();
+
+                    var MemberEventCheckInCount = (from tickEve in db.MEMBER_EVENT_CHECKINS
+                                                   where tickEve.EVENT_ID == eventId && tickEve.IS_CHECKEDIN == true
+                                                   select tickEve).Count();
+
+                    var MemberEventPaidCount = (from tickEve in db.MEMBER_EVENT_CHECKINS
+                                                where tickEve.EVENT_ID == eventId && tickEve.IS_PAID == true
+                                                select tickEve).Count();
+
+                    reports.EventReports.checkIns = MemberEventCheckInCount;
+                    reports.EventReports.isPaids = MemberEventPaidCount;
+                    reports.EventReports.registrations = MemberEventTotalCount;
+                }
+                else if (eventInfo.IS_TICKETED_EVENT == true)
+                {
+                    var TicketTypes = (from tick in db.TICKETED_CHECKINS
+                                       select new { tickType = tick.TICKET_TYPE }).ToList().Distinct();
+
+                    foreach (var ticketType in TicketTypes)
+                    {
+                        var count = (from tick in db.TICKETED_CHECKINS
+                                     where tick.EVENT_ID == eventId && tick.TICKET_TYPE == ticketType.tickType && tick.STATION_1 == true
+                                     select tick).Count();
+
+                        TicketReportVM tickReport = new TicketReportVM();
+                        tickReport.checkIns = count;
+                        tickReport.TicketType = ticketType.tickType;
+
+                        reports.TicketReports.Add(tickReport);
+                    }
+                }
+            }
+            return reports;
         }
+
+        [Route("Dashboard/api/RevertCheckIn")]
+        [HttpPost]
+        public CheckInVM RevertCheckIn(CheckInVM checkInVM)
+        {
+            var currentEventId = Convert.ToInt32(ConfigurationManager.AppSettings["CurrentEventID"]);
+
+            using (var db = new TagsDataModel())
+            {
+                var model = (from ticket in db.TICKETED_CHECKINS
+                             where ticket.TICKET_NUMBER.Equals(checkInVM.TicketNo.ToString()) && ticket.EVENT_ID == currentEventId
+                             select ticket).FirstOrDefault();
+
+                //checking in now. Ticket exists
+                if (model != null && model.STATION_1 == false)
+                {
+                    checkInVM.IsCheckedIn = false;
+                    checkInVM.TicketNotFound = false;
+                    checkInVM.AlreadyCheckedIn = false;
+                }
+                //ticket exists.. Already checked in,reverting now
+                else if (model != null && model.STATION_1 == true)
+                {
+                    model.STATION_1 = false;
+                    model.STATION_1_CHECKIN_TIME = null;
+
+                    checkInVM.IsCheckedIn = false;
+                    checkInVM.TicketNotFound = false;
+                    checkInVM.AlreadyCheckedIn = true;
+
+                }
+                //ticket doesn't exist
+                else if (model == null)
+                {
+                    checkInVM.IsCheckedIn = false;
+                    checkInVM.TicketNotFound = true;
+                    checkInVM.AlreadyCheckedIn = false;
+                }
+                db.SaveChanges();
+                return checkInVM;
+            }
+        }
+
+        [Route("Dashboard/api/IsUserAdmin")]
+        [HttpGet]
+        public bool IsUserAdmin()
+        {
+            using (var db = new TagsDataModel())
+            {
+                var user = (from loggedInUser in db.TAGS_LOGIN
+                            where loggedInUser.LAST_NAME.ToLower().Equals(User.Identity.Name)
+                            select loggedInUser).FirstOrDefault();
+
+                if (user.USER_ROLE.ToLower().Equals("admin"))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+    }
 }
