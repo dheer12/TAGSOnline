@@ -241,6 +241,7 @@
     <Content Include="Global.asax" />
     <Content Include="Javascript\AddUserController.js" />
     <Content Include="Javascript\EventCheckInController.js" />
+    <Content Include="Javascript\HomeController.js" />
     <Content Include="Javascript\Station1JSController.js" />
     <Content Include="Javascript\UpdateMemberController.js" />
     <Content Include="Scripts\bootstrap.js" />
