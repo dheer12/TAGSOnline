@@ -40,6 +40,12 @@ namespace TAGS_BARCODE_WEBAPP_V4.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult RevertCheckIn()
+        {
+            return View();
+        }
+
 
     }
 }

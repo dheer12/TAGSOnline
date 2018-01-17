@@ -356,7 +356,7 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 //checking in now. Ticket exists
                 if (model != null && model.STATION_1 == false)
                 {
-                    checkInVM.IsCheckedIn = false;
+                    checkInVM.IsCheckedIn = true;
                     checkInVM.TicketNotFound = false;
                     checkInVM.AlreadyCheckedIn = false;
                 }
