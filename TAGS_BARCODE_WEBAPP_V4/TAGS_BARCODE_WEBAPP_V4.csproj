@@ -242,6 +242,7 @@
     <Content Include="Javascript\AddUserController.js" />
     <Content Include="Javascript\EventCheckInController.js" />
     <Content Include="Javascript\HomeController.js" />
+    <Content Include="Javascript\ReportsController.js" />
     <Content Include="Javascript\RevertCheckInController.js" />
     <Content Include="Javascript\Station1JSController.js" />
     <Content Include="Javascript\UpdateMemberController.js" />
@@ -313,6 +314,7 @@
     <Content Include="Views\Dashboard\UpdateMember.cshtml" />
     <Content Include="Views\Dashboard\MemberCheckIn.cshtml" />
     <Content Include="Views\Dashboard\RevertCheckIn.cshtml" />
+    <Content Include="Views\Dashboard\Reports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -289,6 +289,8 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
         public ReportsVM GetEventReports(int eventId)
         {
             ReportsVM reports = new ReportsVM();
+            reports.EventReports = new EventReportVM();
+            reports.TicketReports = new List<TicketReportVM>();
             using (var db = new TagsDataModel())
             {
                 var eventInfo = (from eventInf in db.TAGS_EVENTS
@@ -322,6 +324,7 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 else if (eventInfo.IS_TICKETED_EVENT == true)
                 {
                     var TicketTypes = (from tick in db.TICKETED_CHECKINS
+                                       where tick.EVENT_ID == eventId
                                        select new { tickType = tick.TICKET_TYPE }).ToList().Distinct();
 
                     foreach (var ticketType in TicketTypes)
