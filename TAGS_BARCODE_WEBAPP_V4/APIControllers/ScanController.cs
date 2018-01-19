@@ -417,7 +417,7 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
                 {
                     EventVM eventVM = new EventVM();
                     eventVM.EVENT_ID = evnt.EVENT_ID;
-                    eventVM.EVENT_NAME = evnt.EVENT_NAME + " - " + (evnt.EVENT_DATE).ToString("MMM ddd d");
+                    eventVM.EVENT_NAME = evnt.EVENT_NAME + " - " + (evnt.EVENT_DATE).ToString("MMM d yyyy");
                     Events.Add(eventVM);
                 }
             }
