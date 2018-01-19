@@ -19,10 +19,11 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
         [HttpPost]
         public CheckInVM CheckTicketStation1(CheckInVM checkInVM)
         {
+            var currentEventId = Convert.ToInt32(ConfigurationManager.AppSettings["CurrentEventID"]);
             using (var db = new TagsDataModel())
             {
                 var model = (from ticket in db.TICKETED_CHECKINS
-                             where ticket.TICKET_NUMBER.Equals(checkInVM.TicketNo.ToString())
+                             where ticket.TICKET_NUMBER.Equals(checkInVM.TicketNo.ToString()) && ticket.EVENT_ID == currentEventId
                              select ticket).FirstOrDefault();
 
                 //checking in now. Ticket exists
