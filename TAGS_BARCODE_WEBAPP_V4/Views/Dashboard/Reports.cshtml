@@ -5,6 +5,11 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Reports</div>
             <div class="panel-body">
+                <div class="form-group">
+                    <label for="sel1">Select Event:</label>
+                    <select class="form-control" ng-model="event" ng-options="x.EVENT_NAME for x in events" ng-change="selectEvent()">
+                    </select>
+                </div>
                 Event Name:  {{reports.EVENT_NAME}}
                 Location: {{reports.EVENT_LOCATION}}
                 Event Date: {{reports.EVENT_DATE}}

@@ -403,5 +403,27 @@ namespace TAGS_BARCODE_WEBAPP_V4.APIControllers
             }
         }
 
+        [Route("Dashboard/api/GetEvents")]
+        [HttpGet]
+        public List<EventVM> Events()
+        {
+            List<EventVM> Events = new List<EventVM>();
+            using (var db = new TagsDataModel())
+            {
+                var events = from evnt in db.TAGS_EVENTS
+                             select evnt;
+
+                foreach(var evnt in events)
+                {
+                    EventVM eventVM = new EventVM();
+                    eventVM.EVENT_ID = evnt.EVENT_ID;
+                    eventVM.EVENT_NAME = evnt.EVENT_NAME + " - " + (evnt.EVENT_DATE).ToString("MMM ddd d");
+                    Events.Add(eventVM);
+                }
+            }
+            return Events.OrderByDescending(e => e.EVENT_ID).ToList();
+        }
+
+
     }
 }
